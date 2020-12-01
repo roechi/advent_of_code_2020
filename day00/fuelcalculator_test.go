@@ -1,8 +1,9 @@
-package fuelcalulator
+package main
 
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
+	. "./fuelcalculator"
 )
 
 func TestCalcFuelForModule(t *testing.T) {
