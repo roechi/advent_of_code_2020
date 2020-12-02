@@ -3,9 +3,8 @@ package main
 import (
 	"../utils"
 	. "./passwordpolicies"
+	"fmt"
 	"log"
-	"strconv"
-	"strings"
 )
 
 func main() {
@@ -13,25 +12,16 @@ func main() {
 
 	correctPol1 := 0
 	correctPol2 := 0
-	for _, s := range lines {
-		split := strings.Split(s, " ")
-		times := strings.Split(split[0], "-")
-		char := split[1][0]
-		password := split[2]
-		firstNum, errFirst := strconv.Atoi(times[0])
-		secondNum, errSecond := strconv.Atoi(times[1])
+	for _, line := range lines {
+		var firstNum, secondNum int
+		var char, pass string
 
-		if errFirst != nil {
-			log.Fatal(errFirst)
-		}
-		if errSecond != nil {
-			log.Fatal(errSecond)
-		}
+		fmt.Sscanf(line, "%d-%d %1s: %s", &firstNum, &secondNum, &char, &pass)
 
-		if ApplyFirstPolicy(firstNum, secondNum, string(char), password) {
+		if ApplyFirstPolicy(firstNum, secondNum, char, pass) {
 			correctPol1++
 		}
-		if ApplySecondPolicy(firstNum, secondNum, string(char), password) {
+		if ApplySecondPolicy(firstNum, secondNum, char, pass) {
 			correctPol2++
 		}
 	}
