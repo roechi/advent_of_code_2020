@@ -1,7 +1,7 @@
 package main
 
 import (
-	. "./handheld"
+	. "./emulator"
 	"github.com/magiconair/properties/assert"
 	"testing"
 )

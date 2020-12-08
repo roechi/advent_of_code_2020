@@ -1,26 +1,26 @@
-package handheld
+package emulator
 
 import (
 	"errors"
 	"fmt"
 )
 
-type Console struct {
+type Emulator struct {
 	acc  int
 	code []string
 	pnt  int
-	vpos []int
 	seen map[int]struct{}
 }
 
-func NewConsole(code []string) *Console {
-	return &Console{acc: 0, code: code, pnt: 0, vpos: make([]int, 0), seen: map[int]struct{}{}}
+func NewConsole(code []string) *Emulator {
+	return &Emulator{acc: 0, code: code, pnt: 0, seen: map[int]struct{}{}}
 }
 
-func (c *Console) RunProgram() (int, error) {
+func (c *Emulator) RunProgram() (int, error) {
 
 	for c.pnt < len(c.code) {
-		if _, ok := c.seen[c.pnt]; ok {
+		_, ok := c.seen[c.pnt]
+		if ok {
 			return c.acc, errors.New("encountered infinite loop")
 		}
 		c.seen[c.pnt] = struct{}{}
@@ -31,7 +31,7 @@ func (c *Console) RunProgram() (int, error) {
 	return c.acc, nil
 }
 
-func (c *Console) RunNextInstruction() {
+func (c *Emulator) RunNextInstruction() {
 
 	var instrCode string
 	var val int
@@ -50,15 +50,13 @@ func (c *Console) RunNextInstruction() {
 	case "jmp":
 		c.pnt += val
 	}
-
-	c.vpos = append(c.vpos, c.pnt)
 }
 
-func (c *Console) GetPnt() int {
+func (c *Emulator) GetPnt() int {
 	return c.pnt
 }
 
-func (c *Console) GetAcc() int {
+func (c *Emulator) GetAcc() int {
 	return c.acc
 }
 
